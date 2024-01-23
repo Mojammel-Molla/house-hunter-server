@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -21,6 +21,7 @@ const client = new MongoClient(uri, {
 });
 
 const usersCollection = client.db('house-hunterDB').collection('users');
+const bookingCollection = client.db('house-hunterDB').collection('bookings');
 const apartmentCollection = client
   .db('house-hunterDB')
   .collection('all-apartments');
@@ -35,6 +36,32 @@ app.post('/users', async (req, res) => {
 // get all apartments
 app.get('/all-apartments', async (req, res) => {
   const result = await apartmentCollection.find().toArray();
+  res.send(result);
+});
+
+// get details by id
+app.get('/apartment/:id', async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const query = { _id: new ObjectId(id) };
+  const result = await apartmentCollection.findOne(query);
+  res.send(result);
+});
+
+// post all bookings
+app.post('/bookings', async (req, res) => {
+  const user = req.body;
+  result = await bookingCollection.insertOne(user);
+  res.send(result);
+});
+
+// get my bookings data
+app.get('/bookings', async (req, res) => {
+  let query = {};
+  if (req.query.email) {
+    query = { email: req.query.email };
+  }
+  const result = await bookingCollection.find(query).toArray();
   res.send(result);
 });
 
