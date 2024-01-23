@@ -20,6 +20,14 @@ const client = new MongoClient(uri, {
   },
 });
 
+const usersCollection = client.db('house-hunterDB').collection('users');
+
+// post user info
+app.post('/users', async (req, res) => {
+  const user = req.body;
+  result = await usersCollection.insertOne(user);
+  res.send(result);
+});
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
