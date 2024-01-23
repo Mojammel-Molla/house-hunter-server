@@ -21,6 +21,9 @@ const client = new MongoClient(uri, {
 });
 
 const usersCollection = client.db('house-hunterDB').collection('users');
+const apartmentCollection = client
+  .db('house-hunterDB')
+  .collection('all-apartments');
 
 // post user info
 app.post('/users', async (req, res) => {
@@ -28,6 +31,13 @@ app.post('/users', async (req, res) => {
   result = await usersCollection.insertOne(user);
   res.send(result);
 });
+
+// get all apartments
+app.get('/all-apartments', async (req, res) => {
+  const result = await apartmentCollection.find().toArray();
+  res.send(result);
+});
+
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
