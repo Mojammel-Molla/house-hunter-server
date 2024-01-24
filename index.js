@@ -33,11 +33,29 @@ app.post('/users', async (req, res) => {
   res.send(result);
 });
 
+// post new apartment
+app.post('/new-apartment', async (req, res) => {
+  const newApartment = req.body;
+  const result = await apartmentCollection.insertOne(newApartment);
+  res.send(result);
+});
 // get all apartments
 app.get('/all-apartments', async (req, res) => {
   const result = await apartmentCollection.find().toArray();
   res.send(result);
 });
+// get all apartments
+// app.get('/all-apartments', async (req, res) => {
+//   const query = req.query;
+//   const page = query.page;
+//   const pageNumber = parseInt(page);
+//   const perPage = 10;
+//   const skip = pageNumber * perPage;
+
+//   const result = await apartments.find().skip(skip).limit(perPage).toArray();
+//   const count = await apartments.countDocuments();
+//   res.send({ result, count });
+// });
 
 // get details by id
 app.get('/apartment/:id', async (req, res) => {
@@ -62,6 +80,12 @@ app.get('/bookings', async (req, res) => {
     query = { email: req.query.email };
   }
   const result = await bookingCollection.find(query).toArray();
+  res.send(result);
+});
+
+// get all booking data
+app.get('/all-bookings', async (req, res) => {
+  const result = await bookingCollection.find().toArray();
   res.send(result);
 });
 
