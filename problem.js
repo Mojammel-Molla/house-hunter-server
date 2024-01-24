@@ -1,7 +1,7 @@
-function isPalindrome(str) {
-  const cleanedStr = str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+function isPalindrome(string) {
+  const cleanedString = string.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
 
-  return cleanedStr === cleanedStr.split('').reverse().join('');
+  return cleanedString === cleanedString.split('').reverse().join('');
 }
 
 console.log(isPalindrome('level')); // Output: true
